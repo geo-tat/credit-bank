@@ -171,14 +171,14 @@ public class CalculatorServiceImpl implements CalculatorService {
         if (salaryClient) {
             rate = rate.subtract(properties.getSalaryDiscount());
         }
-        BigDecimal monthlyPayment = createMonthlyPayment(rate, dto.getLoanAmount(), dto.getLoanTerm(), insurance);
-        BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(dto.getLoanTerm()), MathContext.DECIMAL128);
+        BigDecimal monthlyPayment = createMonthlyPayment(rate, dto.getAmount(), dto.getTerm(), insurance);
+        BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(dto.getTerm()), MathContext.DECIMAL128);
         return LoanOfferDto.builder()
-                .term(dto.getLoanTerm())
+                .term(dto.getTerm())
                 .isSalaryClient(salaryClient)
                 .isInsuranceEnabled(insurance)
                 .statementId(UUID.randomUUID())
-                .requestedAmount(dto.getLoanAmount())
+                .requestedAmount(dto.getAmount())
                 .monthlyPayment(monthlyPayment)
                 .totalAmount(totalAmount)
                 .rate(rate)

@@ -45,12 +45,12 @@ public class LoanStatementRequestDto {
     @Schema(description = "Сумма кредита, от 30000")
     @NotNull(message = "Loan amount cannot be null")
     @DecimalMin(value = "30000.00", message = "Loan amount must be greater than or equal to 30000")
-    private BigDecimal loanAmount;
+    private BigDecimal amount;
 
     @Schema(description = "Срок кредита, от 6 месяцев")
     @NotNull(message = "Loan term cannot be null")
     @Min(value = 6, message = "Loan term must be greater than or equal to 6")
-    private Integer loanTerm;
+    private Integer term;
 
     @Schema(description = "Дата рождения", format = "yyyy-MM-dd")
     @NotNull(message = "Birthdate cannot be null")

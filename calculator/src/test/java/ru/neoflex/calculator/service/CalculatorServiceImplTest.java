@@ -44,7 +44,7 @@ class CalculatorServiceImplTest {
         List<LoanOfferDto> list = service.calculateLoanOffers(loanStatementRequestDto);
         // Then
         assertEquals(4, list.size());
-        assertEquals(loanStatementRequestDto.getLoanAmount(), list.getFirst().getRequestedAmount());
+        assertEquals(loanStatementRequestDto.getAmount(), list.getFirst().getRequestedAmount());
     }
 
     @Test

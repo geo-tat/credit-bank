@@ -1,0 +1,56 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  profiles:
+    active: dev
+
+  application:
+    name: deal
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true
+          show_sql: true
+        hypersistence.utils.enable_types_contributor: false
+
+  sql:
+    init:
+      mode: always
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/deal-db
+    username: root
+    password: password
+
+  cloud:
+    feign:
+      client:
+        config:
+          default:
+            connect-timeout: 5000
+            read-timeout: 5000
+
+server:
+  port: 2042
+
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+        transaction: INFO
+        transaction.interceptor: TRACE
+    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+
+rest:
+  calculator:
+    host: http://localhost:8080/calculator
+

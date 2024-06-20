@@ -53,5 +53,5 @@ logging:
 
 rest:
   calculator:
-    host: http://localhost:8080/calculator
+    host: http://localhost:2041/calculator
 

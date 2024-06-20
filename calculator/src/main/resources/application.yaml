@@ -12,3 +12,5 @@ loan:
 logging:
   level:
     root: info
+server:
+  port: 2041

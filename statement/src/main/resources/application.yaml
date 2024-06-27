@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+logging:
+  level:
+    root: info
+server:
+  port: 2043
+
+rest:
+  deal:
+    host: http://localhost:2042/deal

@@ -59,4 +59,23 @@ public class ErrorHandler {
                 LocalDateTime.now());
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleCodeIsNotValidException(final SesCodeIsNotValidException e) {
+        log.error("Ошибка верификации ses-кода.", e);
+        return new ErrorResponse(e.getClass().getSimpleName(),
+                Arrays.stream(e.getStackTrace()).findFirst().toString(),
+                e.getMessage(),
+                LocalDateTime.now());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleStatementStatusIsNotValidException(final StatementStatusIsNotValidException e) {
+        log.error("Ошибка статуса Заявления", e);
+        return new ErrorResponse(e.getClass().getSimpleName(),
+                Arrays.stream(e.getStackTrace()).findFirst().toString(),
+                e.getMessage(),
+                LocalDateTime.now());
+    }
 }

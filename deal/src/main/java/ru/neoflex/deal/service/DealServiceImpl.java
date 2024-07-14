@@ -22,6 +22,7 @@ import ru.neoflex.deal.mapper.DealMapper;
 import ru.neoflex.deal.service.interfaces.ClientService;
 import ru.neoflex.deal.service.interfaces.CreditService;
 import ru.neoflex.deal.service.interfaces.DealService;
+import ru.neoflex.deal.service.interfaces.DocumentService;
 import ru.neoflex.deal.service.interfaces.StatementService;
 
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ public class DealServiceImpl implements DealService {
     private final ClientService clientService;
     private final StatementService statementService;
     private final CreditService creditService;
+    private final DocumentService documentService;
 
     @Transactional
     @Override
@@ -68,6 +70,8 @@ public class DealServiceImpl implements DealService {
         log.debug("set applied offer in statement {}", dto);
 
         statementService.updateStatement(statement);
+
+        documentService.finishRegistration(statement.getId(), statement.getClient().getEmail());
     }
 
 
@@ -80,20 +84,34 @@ public class DealServiceImpl implements DealService {
         Statement statement = statementService.getStatementById(statmentUUID);
 
         ScoringDataDto scoringDataDto = DealMapper.initializeScoringDataDto(dto, statement);
-        CreditDto creditDto = feinClient.calculateCreditParametres(scoringDataDto);
-        log.debug("received creditDto from MS-calculator {}", creditDto);
-        Credit credit = creditService.createCredit(creditDto);
-        Client client = clientService.finalUpdateClient(statement.getClient(), dto);
+        try {
+            CreditDto creditDto = feinClient.calculateCreditParametres(scoringDataDto);
+            log.debug("received creditDto from MS-calculator {}", creditDto);
+            Credit credit = creditService.createCredit(creditDto);
+            Client client = clientService.finalUpdateClient(statement.getClient(), dto);
 
-        statement.setCredit(credit);
-        statement.setApplicationStatus(ApplicationStatus.CC_APPROVED);
-        statement.getStatusHistory().add(StatementStatusHistoryDto.builder()
-                .status(ApplicationStatus.CC_APPROVED)
-                .time(LocalDateTime.now())
-                .changeType(ChangeType.AUTOMATIC)
-                .build());
-        statement.setClient(client);
+            statement.setCredit(credit);
+            statement.setApplicationStatus(ApplicationStatus.CC_APPROVED);
+            statement.getStatusHistory().add(StatementStatusHistoryDto.builder()
+                    .status(ApplicationStatus.CC_APPROVED)
+                    .time(LocalDateTime.now())
+                    .changeType(ChangeType.AUTOMATIC)
+                    .build());
+            statement.setClient(client);
 
-        statementService.updateStatement(statement);
+            statementService.updateStatement(statement);
+
+            documentService.createDocument(statement.getId(), statement.getClient().getEmail());
+        } catch (Exception e) {
+            statement.setApplicationStatus(ApplicationStatus.CC_DENIED);
+            statement.getStatusHistory().add(StatementStatusHistoryDto.builder()
+                    .status(ApplicationStatus.CC_DENIED)
+                    .time(LocalDateTime.now())
+                    .changeType(ChangeType.AUTOMATIC)
+                    .build());
+            statementService.updateStatement(statement);
+            documentService.sendDenied(statmentUUID, statement.getClient().getEmail());
+        }
+
     }
 }

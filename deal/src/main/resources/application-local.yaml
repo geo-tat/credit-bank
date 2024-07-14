@@ -55,3 +55,10 @@ rest:
   calculator:
     host: http://localhost:2041/calculator
 
+app:
+  kafka:
+    enabled: true
+
+kafka:
+  bootstrapAddress: localhost:9091
+  groupId: group1

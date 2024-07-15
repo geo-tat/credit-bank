@@ -30,6 +30,7 @@ public class DossierServiceImpl implements DossierService {
         message.setSubject(emailMessage.getTheme().getValue());
         message.setText(text);
         mailSender.send(message);
+        log.info("Message with theme {} send to email {}", emailMessage.getTheme().toString(), emailMessage.getAddress());
     }
 
     @Override

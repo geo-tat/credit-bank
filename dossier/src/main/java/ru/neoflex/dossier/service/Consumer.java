@@ -1,4 +1,4 @@
-package ru.neoflex.dossier;
+package ru.neoflex.dossier.service;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.neoflex.dossier.dto.EmailMessage;
-import ru.neoflex.dossier.service.DossierService;
 
 @Slf4j
 @Service

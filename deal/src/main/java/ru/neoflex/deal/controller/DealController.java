@@ -58,6 +58,7 @@ public class DealController {
 
         service.selectOffer(dto);
     }
+
     @ApiResponses(value = {
             @ApiResponse(description = "Успешный ответ на запрос", responseCode = "200"),
             @ApiResponse(description = "Ошибки при валидации", responseCode = "400",

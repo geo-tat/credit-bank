@@ -54,3 +54,7 @@ rest:
   calculator:
     host: http://localhost:2041/calculator
 
+
+app:
+  kafka:
+    enabled: false

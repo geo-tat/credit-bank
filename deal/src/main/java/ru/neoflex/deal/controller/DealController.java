@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/deal")
 @RequiredArgsConstructor
-@Tag(name = "МС Сделка", description = "Расчет кредита и регистрация")
+@Tag(name = "API Сделка", description = "Расчет кредита и регистрация")
 public class DealController {
 
     private final DealService service;

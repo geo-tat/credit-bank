@@ -112,6 +112,5 @@ public class DealServiceImpl implements DealService {
             statementService.updateStatement(statement);
             documentService.sendDenied(statmentUUID, statement.getClient().getEmail());
         }
-
     }
 }

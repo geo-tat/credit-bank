@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import ru.neoflex.dossier.dto.EmailMessage;
+import ru.neoflex.dossier.properties.GatewayProperties;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class DossierServiceImpl implements DossierService {
     private String emailFrom;
 
     private final JavaMailSender mailSender;
+    private final GatewayProperties properties;
 
     @Override
     public void send(EmailMessage emailMessage, String text) {
@@ -42,8 +44,7 @@ public class DossierServiceImpl implements DossierService {
         helper.setSubject(emailMessage.getTheme().getValue());
 
         String text = "Кредит одобрен! Для формирования документов нажмите на кнопку: ";
-        String url = "http://localhost:2042/deal/document/" + emailMessage.getStatementId().toString() + "/send";
-
+        String url = properties.getHost() + "/deal/document/" + emailMessage.getStatementId().toString() + "/send";
         String content = text + "<br><br>" +
                 "<form id=\"postForm\" action=\"" + url + "\" method=\"post\">" +
                 "  <button type=\"submit\">Прислать документы</button>" +
@@ -70,7 +71,7 @@ public class DossierServiceImpl implements DossierService {
 
 
         String text = "Пожалуйста, выберите одно из следующих действий: ";
-        String url = "http://localhost:2042/deal/document/" + emailMessage.getStatementId().toString() + "/sign";
+        String url = properties.getHost() + "/deal/document/" + emailMessage.getStatementId().toString() + "/sign";
 
         String content = text + "<br><br>" +
                 "<form id=\"signFormAccept\" action=\"" + url + "?isSigned=true\" method=\"post\">" +
@@ -95,7 +96,7 @@ public class DossierServiceImpl implements DossierService {
         helper.setSubject(emailMessage.getTheme().getValue());
 
         String text = "Для завершения оформления, пройдите по ссылке и введите код: " + code;
-        String url = "http://localhost:2042/deal/document/" + emailMessage.getStatementId().toString() + "/code";
+        String url = properties.getHost() + "/deal/document/" + emailMessage.getStatementId().toString() + "/code";
 
 
         String content = text + "<br><br>" +

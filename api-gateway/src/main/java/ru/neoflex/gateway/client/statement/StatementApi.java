@@ -11,7 +11,7 @@ import java.util.List;
 @FeignClient(name = "statement", url = "${rest.statement.host}")
 public interface StatementApi {
     @PostMapping(value = "${rest.statement.method.calculate-offers}")
-    List<LoanOfferDto> createStatement(@RequestBody LoanStatementRequestDto dto);
+    List<LoanOfferDto> getLoanOffers(@RequestBody LoanStatementRequestDto dto);
 
     @PostMapping(value = "${rest.statement.method.select-offer}")
     void selectOffer(@RequestBody LoanOfferDto dto);

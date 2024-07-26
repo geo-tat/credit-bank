@@ -39,7 +39,7 @@ public class GatewayController {
     })
     @Operation(description = "Расчёт возможных условий кредита. Request - LoanStatementRequestDto, response - List<LoanOfferDto>")
     @PostMapping("/statement")
-    public List<LoanOfferDto> getLoanOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto) {
+    public List<LoanOfferDto> createLoanOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info("input loanStatementRequestDto {}", loanStatementRequestDto);
        List<LoanOfferDto> offers = service.createLoanOffers(loanStatementRequestDto);
        log.info("output offers : {}", offers);
@@ -69,7 +69,7 @@ public class GatewayController {
     @Operation(description = "Завершение регистрации + полный подсчёт кредита." +
             "Request - FinishRegistrationRequestDto, param - String, response void.")
     @PostMapping("/statement/registration/{statementId}")
-    void finishRegistration(@RequestBody FinishRegistrationRequestDto dto,
+   public void finishRegistration(@RequestBody FinishRegistrationRequestDto dto,
                             @PathVariable String statementId) {
         log.info("finishRegistrationDto: {}", dto);
         service.finishRegistration(statementId,dto);
@@ -81,7 +81,7 @@ public class GatewayController {
     })
     @Operation(description = "Формирование пакета документов для клиента")
     @PostMapping("/deal/document/{statementId}/send")
-    void sendDocument(@PathVariable UUID statementId) {
+   public void sendDocument(@PathVariable UUID statementId) {
         service.sendDocument(statementId);
     }
     @ApiResponses(value = {
@@ -91,7 +91,7 @@ public class GatewayController {
     })
     @Operation(description = "Согласи или отказ предложения банка о кредите")
     @PostMapping("/deal/document/{statementId}/sign")
-    void signDocument(@PathVariable UUID statementId, @RequestParam boolean isSigned) {
+   public void signDocument(@PathVariable UUID statementId, @RequestParam boolean isSigned) {
         service.signDocument(statementId,isSigned);
     }
 
@@ -102,7 +102,7 @@ public class GatewayController {
     })
     @Operation(description = "Верификация проверочного кода")
     @PostMapping("/deal/document/{statementId}/code")
-    void sesCode(@PathVariable UUID statementId, @RequestParam String code) {
+   public void verifyCode(@PathVariable UUID statementId, @RequestParam String code) {
         service.verifyCode(statementId,code);
     }
 

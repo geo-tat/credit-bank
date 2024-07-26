@@ -26,7 +26,7 @@ public class GatewayServiceImpl implements GatewayService {
     public List<LoanOfferDto> createLoanOffers(LoanStatementRequestDto loanStatementRequestDto) {
         List<LoanOfferDto> offers;
         try {
-            offers = statementFeign.createStatement(loanStatementRequestDto);
+            offers = statementFeign.getLoanOffers(loanStatementRequestDto);
         } catch (FeignException e) {
             log.error("Error creating offers: {}", e.getMessage(), e);
             throw e;

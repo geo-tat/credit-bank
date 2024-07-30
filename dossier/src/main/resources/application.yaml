@@ -24,3 +24,6 @@ kafka:
 server:
   port: 2044
 
+gateway:
+  host: http://localhost:2045
+

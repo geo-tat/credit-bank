@@ -22,7 +22,7 @@ import java.util.UUID;
 @Slf4j
 @RequestMapping("/deal/document/{statementId}")
 @RequiredArgsConstructor
-@Tag(name = "МС Сделка", description = "Формирование сообщения для МС Кредитное досье")
+@Tag(name = "API Cообщения", description = "Формирование сообщения для МС Кредитное досье")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -43,7 +43,7 @@ public class DocumentController {
             @ApiResponse(description = "Internal server error", responseCode = "500",
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @Operation(description = "Согласи или отказ предложения банка о кредите")
+    @Operation(description = "Согласиe или отказ предложения банка о кредите")
     @PostMapping("/sign")
     void signDocument(@PathVariable UUID statementId, @RequestParam boolean isSigned) {
         documentService.signDocument(statementId, isSigned);

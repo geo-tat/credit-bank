@@ -3,6 +3,8 @@ package ru.neoflex.deal.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal.dto.LoanStatementRequestDto;
 import ru.neoflex.deal.entity.Client;
@@ -12,6 +14,7 @@ import ru.neoflex.deal.repository.StatementRepository;
 import ru.neoflex.deal.service.interfaces.StatementService;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
 
 @Service
@@ -42,5 +45,12 @@ public class StatementServiceImpl implements StatementService {
     public void updateStatement(Statement statement) {
         statementRepository.save(statement);
         log.info("updated statement saved in db");
+    }
+
+    @Override
+    public Collection<Statement> getAllStatements(Pageable pageable) {
+        Page<Statement> statements = statementRepository.findAll(pageable);
+        log.info("received statements from db: {}", statements);
+        return statements.toList();
     }
 }

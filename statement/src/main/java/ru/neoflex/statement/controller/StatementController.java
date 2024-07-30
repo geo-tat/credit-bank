@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/statement")
 @RequiredArgsConstructor
-@Tag(name = "Микросервис заявка", description = "Подача заявки на кредит, осуществление прескоринга")
+@Tag(name = "API Заявка", description = "Подача заявки на кредит, осуществление прескоринга")
 @Slf4j
 public class StatementController {
 

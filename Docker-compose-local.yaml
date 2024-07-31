@@ -1,0 +1,123 @@
+version: '3'
+services:
+  calculator:
+    container_name: calculator
+    build:
+      context: ./calculator
+    ports:
+      - "2041:2041"
+    networks:
+      - credit-bank-network
+
+  deal:
+    container_name: deal
+    build:
+      context: ./deal
+    ports:
+      - "2042:2042"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - kafka
+    networks:
+      - credit-bank-network
+
+  statement:
+    container_name: statement
+    build:
+      context: ./statement
+    ports:
+      - "2043:2043"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - credit-bank-network
+
+  dossier:
+    container_name: dossier
+    build:
+      context: ./dossier
+    ports:
+      - "2044:2044"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - kafka
+    networks:
+      - credit-bank-network
+
+  api-gateway:
+    container_name: gateway
+    build:
+      context: ./api-gateway
+    ports:
+      - "2045:2045"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - credit-bank-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.1.1
+    container_name: zookeeper-jboot
+    healthcheck:
+      test: "[[ $$(echo srvr | nc localhost 2181 | grep -oG 'Mode: standalone') = \"Mode: standalone\" ]]"
+      interval: 10s
+      timeout: 1s
+      retries: 30
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - credit-bank-network
+
+  kafka:
+    image: confluentinc/cp-kafka:6.1.1
+    container_name: kafka-jboot
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: "test $$( /usr/bin/zookeeper-shell zookeeper:2181 get /brokers/ids/1 | grep { ) != ''"
+      interval: 3s
+      timeout: 2s
+      retries: 300
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9091
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+    ports:
+      - "9092:9092"
+      - "9091:9091"
+      - "9101:9101"
+    networks:
+      - credit-bank-network
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8084:8080"
+    depends_on:
+      - kafka
+      - zookeeper
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      DYNAMIC_CONFIG_ENABLED: true
+    networks:
+      - credit-bank-network
+
+networks:
+  credit-bank-network:
+

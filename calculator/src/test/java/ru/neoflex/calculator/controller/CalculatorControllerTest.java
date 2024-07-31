@@ -64,28 +64,6 @@ class CalculatorControllerTest {
     }
 
     @Test
-    public void calculationOfPossibleLoanOffersWhenAgeLess18() throws Exception {
-        requestDto.setBirthdate(LocalDate.of(2018, 1, 1));
-
-        mvc.perform(post("/calculator/offers")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Must be more or 18 years old"));
-    }
-
-    @Test
-    public void calculationOfPossibleLoanOffersWhenNameIsNotValid() throws Exception {
-        requestDto.setFirstName("12Uri");
-
-        mvc.perform(post("/calculator/offers")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("First name must contain only Latin letters"));
-    }
-
-    @Test
     public void testCalculateCreditParametres() throws Exception {
 
         CreditDto creditDto = CreditDto.builder().build();

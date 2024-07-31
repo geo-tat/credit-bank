@@ -1,3 +1,4 @@
 FROM openjdk:21
-COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY target/*.jar calculator-app.jar
+ENTRYPOINT ["java","-jar","/calculator-app.jar"]
+EXPOSE 2041

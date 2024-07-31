@@ -1,3 +1,4 @@
 FROM openjdk:21
-COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY target/*.jar gateway-app.jar
+ENTRYPOINT ["java","-jar","/gateway-app.jar"]
+EXPOSE 2045

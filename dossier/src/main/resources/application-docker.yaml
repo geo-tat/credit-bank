@@ -1,0 +1,29 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+app:
+  code: "123"
+  kafka:
+    enabled: true
+
+kafka:
+  bootstrapAddress: kafka:9092
+  groupId: group1
+
+server:
+  port: 2044
+
+gateway:
+  host: http://gateway:2045
+

@@ -14,6 +14,8 @@
   <name>api-gateway</name>
   <description>MVP5 : ms-api-gateway</description>
   <properties>
+    <sonar.organization>geo-tat</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <java.version>21</java.version>
   </properties>
   <dependencies>

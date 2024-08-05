@@ -72,7 +72,7 @@ public class ScoringDataDto {
 
     @Schema(description = "Номер паспорта")
     @NotBlank(message = "Passport number cannot be null or empty")
-    @Pattern(regexp = "^\\d{4}$", message = "Passport number must be exactly 6 digits")
+    @Pattern(regexp = "^\\d{6}$", message = "Passport number must be exactly 6 digits")
     private String passportNumber;
 
     @Schema(description = "Дата выдачи паспорта")

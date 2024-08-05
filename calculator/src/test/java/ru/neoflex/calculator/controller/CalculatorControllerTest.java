@@ -16,13 +16,13 @@ import ru.neoflex.calculator.dto.LoanStatementRequestDto;
 import ru.neoflex.calculator.dto.ScoringDataDto;
 import ru.neoflex.calculator.service.CalculatorServiceImpl;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CalculatorController.class)
 class CalculatorControllerTest {
@@ -49,7 +49,7 @@ class CalculatorControllerTest {
     }
 
     @Test
-    public void calculationOfPossibleLoanOffers() throws Exception {
+    void calculationOfPossibleLoanOffers() throws Exception {
 
         List<LoanOfferDto> loanOffers = List.of();
 
@@ -64,7 +64,7 @@ class CalculatorControllerTest {
     }
 
     @Test
-    public void testCalculateCreditParametres() throws Exception {
+    void testCalculateCreditParametres() throws Exception {
 
         CreditDto creditDto = CreditDto.builder().build();
 

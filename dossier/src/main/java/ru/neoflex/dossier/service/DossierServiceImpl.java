@@ -24,6 +24,10 @@ public class DossierServiceImpl implements DossierService {
     private final JavaMailSender mailSender;
     private final GatewayProperties properties;
 
+    private static final String LOG_MESSAGE_FORMAT = "Message with theme {} send to email {}";
+    private static final String CHARSET = "UTF-8";
+    public static final String DOCUMENT_PATH = "/deal/document/";
+
     @Override
     public void send(EmailMessage emailMessage, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -32,19 +36,19 @@ public class DossierServiceImpl implements DossierService {
         message.setSubject(emailMessage.getTheme().getValue());
         message.setText(text);
         mailSender.send(message);
-        log.info("Message with theme {} send to email {}", emailMessage.getTheme().toString(), emailMessage.getAddress());
+        log.info(LOG_MESSAGE_FORMAT, emailMessage.getTheme().toString(), emailMessage.getAddress());
     }
 
     @Override
     public void sendDocumentHtml(EmailMessage emailMessage) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, CHARSET);
 
         helper.setTo(emailMessage.getAddress());
         helper.setSubject(emailMessage.getTheme().getValue());
 
         String text = "Кредит одобрен! Для формирования документов нажмите на кнопку: ";
-        String url = properties.getHost() + "/deal/document/" + emailMessage.getStatementId().toString() + "/send";
+        String url = properties.getHost() + DOCUMENT_PATH + emailMessage.getStatementId().toString() + "/send";
         String content = text + "<br><br>" +
                 "<form id=\"postForm\" action=\"" + url + "\" method=\"post\">" +
                 "  <button type=\"submit\">Прислать документы</button>" +
@@ -58,20 +62,20 @@ public class DossierServiceImpl implements DossierService {
         helper.setText(content, true);
 
         mailSender.send(message);
-        log.info("Message with theme {} send to email {}", emailMessage.getTheme().toString(), emailMessage.getAddress());
+        log.info(LOG_MESSAGE_FORMAT, emailMessage.getTheme().toString(), emailMessage.getAddress());
     }
 
     @Override
     public void signHtml(EmailMessage emailMessage) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, CHARSET);
 
         helper.setTo(emailMessage.getAddress());
         helper.setSubject(emailMessage.getTheme().getValue());
 
 
         String text = "Пожалуйста, выберите одно из следующих действий: ";
-        String url = properties.getHost() + "/deal/document/" + emailMessage.getStatementId().toString() + "/sign";
+        String url = properties.getHost() + DOCUMENT_PATH + emailMessage.getStatementId().toString() + "/sign";
 
         String content = text + "<br><br>" +
                 "<form id=\"signFormAccept\" action=\"" + url + "?isSigned=true\" method=\"post\">" +
@@ -84,19 +88,19 @@ public class DossierServiceImpl implements DossierService {
         helper.setText(content, true);
 
         mailSender.send(message);
-        log.info("Message with theme {} send to email {}", emailMessage.getTheme().toString(), emailMessage.getAddress());
+        log.info(LOG_MESSAGE_FORMAT, emailMessage.getTheme().toString(), emailMessage.getAddress());
     }
 
     @Override
     public void verifyCodeHtml(EmailMessage emailMessage) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, CHARSET);
 
         helper.setTo(emailMessage.getAddress());
         helper.setSubject(emailMessage.getTheme().getValue());
 
         String text = "Для завершения оформления, пройдите по ссылке и введите код: " + code;
-        String url = properties.getHost() + "/deal/document/" + emailMessage.getStatementId().toString() + "/code";
+        String url = properties.getHost() + DOCUMENT_PATH + emailMessage.getStatementId().toString() + "/code";
 
 
         String content = text + "<br><br>" +
@@ -106,6 +110,6 @@ public class DossierServiceImpl implements DossierService {
         helper.setText(content, true);
 
         mailSender.send(message);
-        log.info("Message with theme {} send to email {}", emailMessage.getTheme().toString(), emailMessage.getAddress());
+        log.info(LOG_MESSAGE_FORMAT, emailMessage.getTheme().toString(), emailMessage.getAddress());
     }
 }

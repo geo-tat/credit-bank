@@ -48,13 +48,13 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testCreateStatement() {
+    void testCreateStatement() {
         // Given
         client = DtoBuilder.getClient(finishRegistrationRequestDto, loanStatementRequestDto);
 
         LocalDateTime registrationTime = LocalDateTime.now();
 
-        Statement statementToSave = DealMapper.InitializeStatement(registrationTime, client, loanStatementRequestDto);
+        Statement statementToSave = DealMapper.initializeStatement(registrationTime, client);
         UUID statementId = UUID.randomUUID();
         statementToSave.setId(statementId);
 
@@ -76,7 +76,7 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testGetStatementById() {
+    void testGetStatementById() {
         // Given
         UUID statementId = UUID.randomUUID();
         Statement statement = new Statement();
@@ -93,15 +93,14 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testGetStatementByIdNotFound() {
+    void testGetStatementByIdNotFound() {
         // Given
         UUID statementId = UUID.randomUUID();
 
         // When & Then
         when(statementRepository.findById(statementId)).thenReturn(Optional.empty());
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            statementService.getStatementById(statementId);
-        });
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> statementService.getStatementById(statementId));
 
         assertEquals("Заявление не найдено по ID=" + statementId, exception.getMessage());
 
@@ -109,7 +108,7 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testUpdateStatement() {
+    void testUpdateStatement() {
         // Given
         UUID statementId = UUID.randomUUID();
         Statement statement = new Statement();

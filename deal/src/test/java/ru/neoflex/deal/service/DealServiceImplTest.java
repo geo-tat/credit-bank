@@ -59,7 +59,6 @@ class DealServiceImplTest {
     private DealMapper dealMapper;
 
     private LoanStatementRequestDto requestDto;
-    private ScoringDataDto scoringDto;
     private LoanOfferDto loanOfferDto;
     private FinishRegistrationRequestDto finishRegistrationRequestDto;
     private UUID statementId;
@@ -67,7 +66,6 @@ class DealServiceImplTest {
     @BeforeEach
     void setUp() {
         requestDto = DtoBuilder.getLoanStatementRequestDto();
-        scoringDto = DtoBuilder.getScoringDataDto();
         loanOfferDto = DtoBuilder.getLoanOfferDto();
         finishRegistrationRequestDto = DtoBuilder.getFinishDto();
         statementId = UUID.randomUUID();

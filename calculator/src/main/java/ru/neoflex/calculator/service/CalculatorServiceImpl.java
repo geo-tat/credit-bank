@@ -160,7 +160,7 @@ public class CalculatorServiceImpl implements CalculatorService {
         log.info("Пройдена проверка на отказ в кредите");
     }
 
-    private LoanOfferDto createLoanOffer(LoanStatementRequestDto dto, Boolean insurance, Boolean salaryClient) {
+    private LoanOfferDto createLoanOffer(LoanStatementRequestDto dto, boolean insurance, boolean salaryClient) {
         BigDecimal rate = properties.getBaseRate();    // базовая ставка
 
 
@@ -203,7 +203,7 @@ public class CalculatorServiceImpl implements CalculatorService {
         return hundredthMonthlyRate.divide(denominator, MathContext.DECIMAL128).add(hundredthMonthlyRate);
     }
 
-    private BigDecimal createInsuranceCost(BigDecimal amount, Boolean isInsuranceEnable, int term) {
+    private BigDecimal createInsuranceCost(BigDecimal amount, boolean isInsuranceEnable, int term) {
         BigDecimal insurancePayment = BigDecimal.ZERO;
         if (isInsuranceEnable) {
             log.info("Добавление страховочных выплат");

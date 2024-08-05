@@ -28,7 +28,7 @@ class GatewayServiceTest {
     private DealApi dealFeignClient;
 
     @Test
-    public void testFinishRegistration() {
+    void testFinishRegistration() {
         UUID statementId = UUID.randomUUID();
         FinishRegistrationRequestDto requestDto = new FinishRegistrationRequestDto();
 
@@ -38,7 +38,7 @@ class GatewayServiceTest {
     }
 
     @Test
-    public void testSelectOffer() {
+    void testSelectOffer() {
         LoanOfferDto offerDto = new LoanOfferDto();
 
         service.selectOffer(offerDto);
@@ -47,14 +47,14 @@ class GatewayServiceTest {
     }
 
     @Test
-    public void testCreateStatement() {
+    void testCreateStatement() {
         LoanStatementRequestDto requestDto = new LoanStatementRequestDto();
         service.createLoanOffers(requestDto);
         verify(statementFeignClient, times(1)).getLoanOffers(requestDto);
     }
 
     @Test
-    public void testSendDocument() {
+    void testSendDocument() {
         UUID statementId = UUID.randomUUID();
 
         service.sendDocument(statementId);
@@ -63,7 +63,7 @@ class GatewayServiceTest {
     }
 
     @Test
-    public void testSignDocument() {
+    void testSignDocument() {
         UUID statementId = UUID.randomUUID();
         boolean isSigned = true;
         service.signDocument(statementId, isSigned);
@@ -72,7 +72,7 @@ class GatewayServiceTest {
     }
 
     @Test
-    public void testVerifyCode() {
+    void testVerifyCode() {
         UUID statementId = UUID.randomUUID();
         String code = "123";
 

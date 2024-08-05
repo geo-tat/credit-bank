@@ -56,7 +56,7 @@ class DealControllerTest {
 
 
     @Test
-    public void createStatement() throws Exception {
+    void createStatement() throws Exception {
         List<LoanOfferDto> loanOffers = List.of();
 
         when(service.makeStatement(any(LoanStatementRequestDto.class))).thenReturn(loanOffers);
@@ -69,7 +69,7 @@ class DealControllerTest {
     }
 
     @Test
-    public void selectOffer() throws Exception {
+    void selectOffer() throws Exception {
 
         doNothing().when(service).selectOffer(loanOfferDto);
 
@@ -81,7 +81,7 @@ class DealControllerTest {
     }
 
     @Test
-    public void finishRegistration() throws Exception {
+    void finishRegistration() throws Exception {
         doNothing().when(service).finishRegistrationAndCalculation(loanOfferDto.getStatementId().toString(),
                 finishRegistrationRequestDto);
 

@@ -49,10 +49,8 @@ public class DealServiceImpl implements DealService {
         Statement statement = statementService.createStatement(client, dto);
         List<LoanOfferDto> list = feinClient.calculationOfPossibleLoanOffers(dto);
         log.debug("received loan offers from MS-calculator");
-
-        return list.stream()
-                .peek(offer -> offer.setStatementId(statement.getId()))
-                .toList();
+        list.forEach(offer -> offer.setStatementId(statement.getId()));
+        return list;
     }
 
     @Transactional

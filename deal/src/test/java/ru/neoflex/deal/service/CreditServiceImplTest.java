@@ -29,7 +29,7 @@ class CreditServiceImplTest {
     CreditDto creditDto;
 
     @Test
-    public void testCreateCredit() {
+    void testCreateCredit() {
         // Given
         creditDto = DtoBuilder.getCreditDto();
         Credit creditToSave = DealMapper.initializeCredit(creditDto);

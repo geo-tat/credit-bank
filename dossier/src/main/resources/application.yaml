@@ -26,4 +26,4 @@ server:
 
 gateway:
   host: http://localhost:2045
-
+  path: /deal/document/

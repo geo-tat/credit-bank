@@ -20,13 +20,15 @@ public class DossierServiceImpl implements DossierService {
     private String code;
     @Value("${spring.mail.username}")
     private String emailFrom;
+    @Value("${gateway.path}")
+    private String gatewayPath;
 
     private final JavaMailSender mailSender;
     private final GatewayProperties properties;
 
     private static final String LOG_MESSAGE_FORMAT = "Message with theme {} send to email {}";
     private static final String CHARSET = "UTF-8";
-    public static final String DOCUMENT_PATH = "/deal/document/";
+
 
     @Override
     public void send(EmailMessage emailMessage, String text) {
@@ -48,7 +50,7 @@ public class DossierServiceImpl implements DossierService {
         helper.setSubject(emailMessage.getTheme().getValue());
 
         String text = "Кредит одобрен! Для формирования документов нажмите на кнопку: ";
-        String url = properties.getHost() + DOCUMENT_PATH + emailMessage.getStatementId().toString() + "/send";
+        String url = properties.getHost() + gatewayPath + emailMessage.getStatementId().toString() + "/send";
         String content = text + "<br><br>" +
                 "<form id=\"postForm\" action=\"" + url + "\" method=\"post\">" +
                 "  <button type=\"submit\">Прислать документы</button>" +
@@ -75,7 +77,7 @@ public class DossierServiceImpl implements DossierService {
 
 
         String text = "Пожалуйста, выберите одно из следующих действий: ";
-        String url = properties.getHost() + DOCUMENT_PATH + emailMessage.getStatementId().toString() + "/sign";
+        String url = properties.getHost() + gatewayPath + emailMessage.getStatementId().toString() + "/sign";
 
         String content = text + "<br><br>" +
                 "<form id=\"signFormAccept\" action=\"" + url + "?isSigned=true\" method=\"post\">" +
@@ -100,7 +102,7 @@ public class DossierServiceImpl implements DossierService {
         helper.setSubject(emailMessage.getTheme().getValue());
 
         String text = "Для завершения оформления, пройдите по ссылке и введите код: " + code;
-        String url = properties.getHost() + DOCUMENT_PATH + emailMessage.getStatementId().toString() + "/code";
+        String url = properties.getHost() + gatewayPath + emailMessage.getStatementId().toString() + "/code";
 
 
         String content = text + "<br><br>" +

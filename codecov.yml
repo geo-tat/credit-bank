@@ -1,0 +1,32 @@
+codecov:
+  notify:
+    require_ci_to_pass: yes
+
+coverage:
+  status:
+    project:
+      default:
+        target: 80%
+    patch:
+      default:
+        target: 80%
+    changes: yes
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "header, diff, files"
+  behavior: default
+  require_changes: yes
+  require_base: yes
+  require_head: yes
+  after_n_builds: 2
+
+  markdown:
+    title: "Codecov Report"

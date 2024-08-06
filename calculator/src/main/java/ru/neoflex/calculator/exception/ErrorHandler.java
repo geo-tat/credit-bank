@@ -37,14 +37,4 @@ public class ErrorHandler {
                 e.getMessage(),
                 LocalDateTime.now());
     }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(RuntimeException.class)
-    public ErrorResponse handleRuntimeException(RuntimeException e) {
-        log.error(e.getMessage());
-        return new ErrorResponse(e.getClass().getSimpleName(),
-                Arrays.stream(e.getStackTrace()).findFirst().toString(),
-                e.getMessage(),
-                LocalDateTime.now());
-    }
 }

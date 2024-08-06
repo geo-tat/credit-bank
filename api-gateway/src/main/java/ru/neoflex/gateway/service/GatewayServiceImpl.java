@@ -27,6 +27,7 @@ public class GatewayServiceImpl implements GatewayService {
         List<LoanOfferDto> offers;
         try {
             offers = statementFeign.getLoanOffers(loanStatementRequestDto);
+
         } catch (FeignException e) {
             log.error("Error creating offers: {}", e.getMessage(), e);
             throw e;
@@ -82,6 +83,7 @@ public class GatewayServiceImpl implements GatewayService {
             dealFeign.verifyCode(statementId, code);
         } catch (FeignException e) {
             log.error("Error verifying code: {}", e.getMessage(), e);
+            throw e;
         }
     }
 }

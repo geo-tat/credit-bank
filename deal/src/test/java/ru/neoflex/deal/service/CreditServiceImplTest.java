@@ -9,7 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.neoflex.deal.DtoBuilder;
 import ru.neoflex.deal.dto.CreditDto;
 import ru.neoflex.deal.entity.Credit;
-import ru.neoflex.deal.entity.Statement;
 import ru.neoflex.deal.mapper.DealMapper;
 import ru.neoflex.deal.repository.CreditRepository;
 
@@ -48,20 +47,19 @@ class CreditServiceImplTest {
 
         // Then
         assertEquals(savedCredit.getId(), result.getId());
-
         verify(creditRepository).save(any(Credit.class));
     }
 
     @Test
     void testFindCreditById() {
-    // Given
+        // Given
         UUID creditId = UUID.randomUUID();
         Credit credit = new Credit();
         credit.setId(creditId);
-    // When
-    when(creditRepository.findById(creditId)).thenReturn(Optional.of(credit));
-    Credit result = creditService.getCreditById(creditId);
-    // Then
+        // When
+        when(creditRepository.findById(creditId)).thenReturn(Optional.of(credit));
+        Credit result = creditService.getCreditById(creditId);
+        // Then
         assertEquals(creditId, result.getId());
         verify(creditRepository).findById(creditId);
     }
@@ -76,9 +74,6 @@ class CreditServiceImplTest {
                 () -> creditService.getCreditById(creditId));
         // Then
         assertEquals("Кредит не найден по ID=" + creditId, exception.getMessage());
-
         verify(creditRepository).findById(creditId);
-
     }
-
 }

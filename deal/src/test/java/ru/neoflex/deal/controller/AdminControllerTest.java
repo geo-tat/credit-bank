@@ -26,7 +26,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(AdminController.class)
 class AdminControllerTest {
@@ -73,18 +72,16 @@ class AdminControllerTest {
                 .andExpect(jsonPath("$.timestamp").exists())
                 .andReturn();
 
-        // Extract the response body to further check its content if needed
         String responseBody = result.getResponse().getContentAsString();
 
-        // Additional validation can be added here
         ErrorResponse errorResponse = objectMapper.readValue(responseBody, ErrorResponse.class);
         assert errorResponse.getException().equals("EntityNotFoundException");
         assert errorResponse.getMessage().equals("Entity not found");
-        // Validate the sourceClass if necessary, or add additional assertions
+
     }
 
     @Test
-    public void testGetAllStatements_Success() throws Exception {
+    void testGetAllStatements_Success() throws Exception {
         Statement statement1 = Statement.builder().build();
         Statement statement2 = Statement.builder().build();
         Collection<Statement> statements = List.of(statement2, statement1);

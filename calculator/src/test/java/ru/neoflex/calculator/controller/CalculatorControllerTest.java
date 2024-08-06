@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(CalculatorController.class)
 class CalculatorControllerTest {
@@ -79,5 +80,38 @@ class CalculatorControllerTest {
                         .content(objectMapper.writeValueAsString(scoringDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(creditDto)));
+    }
+
+    @Test
+    void testHandleValidationException() throws Exception {
+        // Given
+        BindingResult bindingResult = Mockito.mock(BindingResult.class);
+        FieldError fieldError = new FieldError("objectName", "fieldName", "defaultMessage");
+        when(bindingResult.getFieldErrors()).thenReturn(Collections.singletonList(fieldError));
+
+        // Then
+        mvc.perform(post("/calculator/calc")
+                        .contentType("application/json")
+                        .content("{}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.exception").value("MethodArgumentNotValidException"))
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
+    void testHandleCreditDeniedException() throws Exception {
+        // Given
+        ScoringDataDto dto = DtoBuilder.getScoringDataDto();
+        LoanDeniedException exception = new LoanDeniedException("Credit denied");
+        // When
+        when(service.calculateCreditParameters(dto)).thenThrow(exception);
+        // Then
+        mvc.perform(post("/calculator/calc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.exception").value("LoanDeniedException"))
+                .andExpect(jsonPath("$.message").value("Credit denied"))
+                .andExpect(jsonPath("$.timestamp").exists());
     }
 }

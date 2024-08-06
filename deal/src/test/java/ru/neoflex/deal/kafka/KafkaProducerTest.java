@@ -8,16 +8,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
-
 import ru.neoflex.deal.dto.EmailMessage;
 import ru.neoflex.deal.enums.TopicType;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class KafkaProducerTest {
+class KafkaProducerTest {
 
     @Mock
     private KafkaTemplate<String, EmailMessage> kafkaTemplate;
@@ -35,10 +34,10 @@ public class KafkaProducerTest {
         // given
         EmailMessage message = EmailMessage.builder()
                 .theme(TopicType.SEND_DOCUMENTS)
-                        .build();
+                .build();
         // when
         kafkaProducer.sendEmail(message);
         // then
-        verify(kafkaTemplate, times(1)).send(eq("send-documents"), eq(message));
+        verify(kafkaTemplate, times(1)).send("send-documents", message);
     }
 }

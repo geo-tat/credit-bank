@@ -16,8 +16,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
-
-public class ConsumerTest {
+class ConsumerTest {
 
     @InjectMocks
     private Consumer consumer;
@@ -29,10 +28,7 @@ public class ConsumerTest {
 
     @BeforeEach
     void setUp() {
-        message = EmailMessage.builder()
-                .statementId(UUID.randomUUID())
-                .address("test@test.com")
-                .build();
+        message = EmailMessage.builder().statementId(UUID.randomUUID()).address("test@test.com").build();
     }
 
     @Test
@@ -46,7 +42,6 @@ public class ConsumerTest {
 
     @Test
     void testListenCreditIssued() {
-        ;
         message.setTheme(TopicType.CREDIT_ISSUED);
 
         consumer.listen(message);

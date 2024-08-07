@@ -2,12 +2,10 @@ package ru.neoflex.dossier.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
 import ru.neoflex.dossier.dto.EmailMessage;
 import ru.neoflex.dossier.properties.KafkaProperties;
 

@@ -11,7 +11,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import ru.neoflex.deal.dto.EmailMessage;
 import ru.neoflex.deal.enums.TopicType;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 

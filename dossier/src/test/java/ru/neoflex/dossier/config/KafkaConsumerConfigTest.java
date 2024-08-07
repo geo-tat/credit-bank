@@ -7,11 +7,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import ru.neoflex.dossier.dto.EmailMessage;
 import ru.neoflex.dossier.properties.KafkaProperties;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class KafkaConsumerConfigTest {
 
@@ -25,7 +29,7 @@ public class KafkaConsumerConfigTest {
     }
 
     @Test
-    public void testConsumerFactory() {
+    void testConsumerFactory() {
         properties = new KafkaProperties();
         properties.setBootstrapAddress("localhost:9092");
         properties.setGroupId("testGroupId");
@@ -38,18 +42,17 @@ public class KafkaConsumerConfigTest {
         expectedConfigProps.put(ConsumerConfig.GROUP_ID_CONFIG, "testGroupId");
         expectedConfigProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
-        // Проверяем только ключевые параметры, которые должны быть установлены в ConsumerFactory
-        Assertions.assertEquals(expectedConfigProps.get(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG), consumerFactory.getConfigurationProperties().get(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG));
-        Assertions.assertEquals(expectedConfigProps.get(ConsumerConfig.GROUP_ID_CONFIG), consumerFactory.getConfigurationProperties().get(ConsumerConfig.GROUP_ID_CONFIG));
-        Assertions.assertEquals(expectedConfigProps.get(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG), consumerFactory.getConfigurationProperties().get(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG));
+
+        assertEquals(expectedConfigProps.get(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG), consumerFactory.getConfigurationProperties().get(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG));
+        assertEquals(expectedConfigProps.get(ConsumerConfig.GROUP_ID_CONFIG), consumerFactory.getConfigurationProperties().get(ConsumerConfig.GROUP_ID_CONFIG));
+        assertEquals(expectedConfigProps.get(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG), consumerFactory.getConfigurationProperties().get(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG));
     }
 
     @Test
-    public void testKafkaListenerContainerFactory() {
+    void testKafkaListenerContainerFactory() {
         KafkaConsumerConfig kafkaConsumerConfig = new KafkaConsumerConfig(properties);
         ConcurrentKafkaListenerContainerFactory<String, EmailMessage> factory = kafkaConsumerConfig.kafkaListenerContainerFactory();
 
-        // Add assertions based on your actual setup
-        // For example, you can check if the consumer factory set in the listener container factory is the one you expect
+        assertNotNull(factory, "KafkaListenerContainerFactory should not be null");
     }
 }

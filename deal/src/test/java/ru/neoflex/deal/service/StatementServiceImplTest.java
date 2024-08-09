@@ -7,6 +7,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import ru.neoflex.deal.DtoBuilder;
 import ru.neoflex.deal.dto.FinishRegistrationRequestDto;
 import ru.neoflex.deal.dto.LoanStatementRequestDto;
@@ -16,14 +20,17 @@ import ru.neoflex.deal.mapper.DealMapper;
 import ru.neoflex.deal.repository.StatementRepository;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -48,13 +55,13 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testCreateStatement() {
+    void testCreateStatement() {
         // Given
         client = DtoBuilder.getClient(finishRegistrationRequestDto, loanStatementRequestDto);
 
         LocalDateTime registrationTime = LocalDateTime.now();
 
-        Statement statementToSave = DealMapper.InitializeStatement(registrationTime, client, loanStatementRequestDto);
+        Statement statementToSave = DealMapper.initializeStatement(registrationTime, client);
         UUID statementId = UUID.randomUUID();
         statementToSave.setId(statementId);
 
@@ -76,7 +83,7 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testGetStatementById() {
+    void testGetStatementById() {
         // Given
         UUID statementId = UUID.randomUUID();
         Statement statement = new Statement();
@@ -93,15 +100,32 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testGetStatementByIdNotFound() {
+    void testFindAllStatements() {
+        // Given
+        Pageable pageable = PageRequest.of(4, 10);
+        List<Statement> statementList = Arrays.asList(
+                new Statement(),
+                new Statement()
+        );
+        Page<Statement> statementPage = new PageImpl<>(statementList);
+        // When
+        when(statementRepository.findAll(pageable)).thenReturn(statementPage);
+        Collection<Statement> result = statementService.getAllStatements(pageable);
+        // Then
+        assertEquals(statementList.size(), result.size());
+        assertThat(result).isEqualTo(statementList);
+        verify(statementRepository, times(1)).findAll(pageable);
+    }
+
+    @Test
+    void testGetStatementByIdNotFound() {
         // Given
         UUID statementId = UUID.randomUUID();
 
         // When & Then
         when(statementRepository.findById(statementId)).thenReturn(Optional.empty());
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            statementService.getStatementById(statementId);
-        });
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> statementService.getStatementById(statementId));
 
         assertEquals("Заявление не найдено по ID=" + statementId, exception.getMessage());
 
@@ -109,7 +133,7 @@ class StatementServiceImplTest {
     }
 
     @Test
-    public void testUpdateStatement() {
+    void testUpdateStatement() {
         // Given
         UUID statementId = UUID.randomUUID();
         Statement statement = new Statement();
@@ -122,5 +146,4 @@ class StatementServiceImplTest {
         // Then
         verify(statementRepository).save(statement);
     }
-
 }

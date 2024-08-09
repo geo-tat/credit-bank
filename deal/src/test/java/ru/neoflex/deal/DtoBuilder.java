@@ -22,9 +22,6 @@ import java.util.UUID;
 
 public class DtoBuilder {
 
-    private LoanStatementRequestDto loanStatementRequestDto;
-    private ScoringDataDto scoringDataDto;
-
     public static LoanStatementRequestDto getLoanStatementRequestDto() {
         return LoanStatementRequestDto.builder()
                 .firstName("John")

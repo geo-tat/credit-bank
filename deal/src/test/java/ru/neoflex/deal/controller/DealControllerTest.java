@@ -14,16 +14,17 @@ import ru.neoflex.deal.dto.FinishRegistrationRequestDto;
 import ru.neoflex.deal.dto.LoanOfferDto;
 import ru.neoflex.deal.dto.LoanStatementRequestDto;
 import ru.neoflex.deal.dto.ScoringDataDto;
+import ru.neoflex.deal.exception.LoanDeniedException;
 import ru.neoflex.deal.service.DealServiceImpl;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(DealController.class)
 class DealControllerTest {
@@ -56,7 +57,7 @@ class DealControllerTest {
 
 
     @Test
-    public void createStatement() throws Exception {
+    void createStatement() throws Exception {
         List<LoanOfferDto> loanOffers = List.of();
 
         when(service.makeStatement(any(LoanStatementRequestDto.class))).thenReturn(loanOffers);
@@ -69,7 +70,7 @@ class DealControllerTest {
     }
 
     @Test
-    public void selectOffer() throws Exception {
+    void selectOffer() throws Exception {
 
         doNothing().when(service).selectOffer(loanOfferDto);
 
@@ -81,7 +82,7 @@ class DealControllerTest {
     }
 
     @Test
-    public void finishRegistration() throws Exception {
+    void finishRegistration() throws Exception {
         doNothing().when(service).finishRegistrationAndCalculation(loanOfferDto.getStatementId().toString(),
                 finishRegistrationRequestDto);
 
@@ -89,5 +90,23 @@ class DealControllerTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(finishRegistrationRequestDto)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testFinishRegistrationWhenCreditDenied() throws Exception {
+        // Given
+        ScoringDataDto dto = new ScoringDataDto();
+        LoanDeniedException exception = new LoanDeniedException("Credit denied");
+        // When
+        doThrow(exception).when(service).finishRegistrationAndCalculation(anyString(), any(FinishRegistrationRequestDto.class));
+
+        // Then
+        mvc.perform(post("/deal/calculate/{statementId}", "123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.exception").value("LoanDeniedException"))
+                .andExpect(jsonPath("$.message").value("Credit denied"))
+                .andExpect(jsonPath("$.timestamp").exists());
     }
 }

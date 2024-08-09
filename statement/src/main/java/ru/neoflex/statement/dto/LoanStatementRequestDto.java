@@ -66,11 +66,11 @@ public class LoanStatementRequestDto {
 
     @Schema(description = "Серия паспорта")
     @NotBlank(message = "Passport series cannot be null or empty")
-    @Pattern(regexp = "^[0-9]{4}$", message = "Passport series must be exactly 4 digits")
+    @Pattern(regexp = "^\\d{4}$", message = "Passport series must be exactly 4 digits")
     private String passportSeries;
 
     @Schema(description = "Номер паспорта")
     @NotBlank(message = "Passport number cannot be null or empty")
-    @Pattern(regexp = "^[0-9]{6}$", message = "Passport number must be exactly 6 digits")
+    @Pattern(regexp = "^\\d{6}$", message = "Passport number must be exactly 6 digits")
     private String passportNumber;
 }

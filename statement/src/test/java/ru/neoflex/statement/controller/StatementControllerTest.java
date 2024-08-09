@@ -53,7 +53,7 @@ class StatementControllerTest {
 
 
     @Test
-    public void createStatement() throws Exception {
+    void createStatement() throws Exception {
         List<LoanOfferDto> loanOffers = List.of();
 
         when(service.makeStatement(any(LoanStatementRequestDto.class))).thenReturn(loanOffers);
@@ -66,7 +66,7 @@ class StatementControllerTest {
     }
 
     @Test
-    public void selectOffer() throws Exception {
+    void selectOffer() throws Exception {
 
         doNothing().when(service).selectOffer(loanOfferDto);
 
@@ -142,7 +142,7 @@ class StatementControllerTest {
     }
 
     @Test
-    public void testMakeStatementThrowsLoanDeniedException() throws Exception {
+    void testMakeStatementThrowsLoanDeniedException() throws Exception {
         // Given & When
         when(service.makeStatement(requestDto)).thenThrow(new LoanDeniedException("Credit denied"));
 

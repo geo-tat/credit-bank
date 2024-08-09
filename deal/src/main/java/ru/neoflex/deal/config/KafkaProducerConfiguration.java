@@ -23,19 +23,19 @@ import java.util.Map;
 public class KafkaProducerConfiguration {
 
     @Value("${kafka.bootstrapAddress}")
-    private String SERVER;
+    private String server;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, SERVER);
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, server);
         return new KafkaAdmin(configs);
     }
 
     @Bean
     public ProducerFactory<String, EmailMessage> producerFactory() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, SERVER);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class.getName());
 

@@ -18,6 +18,9 @@ import java.util.List;
 
 public class DealMapper {
 
+    private DealMapper() {
+    }
+
     public static Client initializeClient(LoanStatementRequestDto dto) {
         return Client.builder()
                 .email(dto.getEmail())
@@ -32,9 +35,8 @@ public class DealMapper {
                 .build();
     }
 
-    public static Statement InitializeStatement(LocalDateTime registrationTime,
-                                                Client client,
-                                                LoanStatementRequestDto dto) {
+    public static Statement initializeStatement(LocalDateTime registrationTime,
+                                                Client client) {
         return Statement.builder()
                 .client(client)
                 .creationDate(registrationTime)

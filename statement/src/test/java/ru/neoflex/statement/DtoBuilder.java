@@ -1,7 +1,6 @@
 package ru.neoflex.statement;
 
 
-
 import ru.neoflex.statement.dto.LoanOfferDto;
 import ru.neoflex.statement.dto.LoanStatementRequestDto;
 
@@ -10,8 +9,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class DtoBuilder {
-
-    private LoanStatementRequestDto loanStatementRequestDto;
 
     public static LoanStatementRequestDto getLoanStatementRequestDto() {
         return LoanStatementRequestDto.builder()
@@ -26,7 +23,6 @@ public class DtoBuilder {
                 .passportNumber("567890")
                 .build();
     }
-
 
 
     public static LoanOfferDto getLoanOfferDto() {

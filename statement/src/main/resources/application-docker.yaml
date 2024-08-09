@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: info
+server:
+  port: 2043
+
+rest:
+  deal:
+    host: http://deal:2042/deal

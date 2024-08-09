@@ -22,6 +22,7 @@ import ru.neoflex.deal.exception.OfferAlreadySelectedException;
 import ru.neoflex.deal.mapper.DealMapper;
 import ru.neoflex.deal.service.interfaces.ClientService;
 import ru.neoflex.deal.service.interfaces.CreditService;
+import ru.neoflex.deal.service.interfaces.DocumentService;
 import ru.neoflex.deal.service.interfaces.StatementService;
 
 import java.time.LocalDateTime;
@@ -46,6 +47,9 @@ class DealServiceImplTest {
     private StatementService statementService;
 
     @Mock
+    private DocumentService documentService;
+
+    @Mock
     private CreditService creditService;
 
     @Mock
@@ -55,7 +59,6 @@ class DealServiceImplTest {
     private DealMapper dealMapper;
 
     private LoanStatementRequestDto requestDto;
-    private ScoringDataDto scoringDto;
     private LoanOfferDto loanOfferDto;
     private FinishRegistrationRequestDto finishRegistrationRequestDto;
     private UUID statementId;
@@ -63,7 +66,6 @@ class DealServiceImplTest {
     @BeforeEach
     void setUp() {
         requestDto = DtoBuilder.getLoanStatementRequestDto();
-        scoringDto = DtoBuilder.getScoringDataDto();
         loanOfferDto = DtoBuilder.getLoanOfferDto();
         finishRegistrationRequestDto = DtoBuilder.getFinishDto();
         statementId = UUID.randomUUID();
@@ -102,6 +104,8 @@ class DealServiceImplTest {
         Statement statement = Statement.builder().build();
         statement.setId(statementId);
         statement.setApplicationStatus(ApplicationStatus.PREAPPROVAL);
+        Client client = DtoBuilder.getClient(finishRegistrationRequestDto,requestDto);
+        statement.setClient(client);
         loanOfferDto.setStatementId(statementId);
 
         // When

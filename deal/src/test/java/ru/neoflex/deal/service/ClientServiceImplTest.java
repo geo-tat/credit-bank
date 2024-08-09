@@ -10,7 +10,6 @@ import ru.neoflex.deal.DtoBuilder;
 import ru.neoflex.deal.dto.FinishRegistrationRequestDto;
 import ru.neoflex.deal.dto.LoanStatementRequestDto;
 import ru.neoflex.deal.entity.Client;
-import ru.neoflex.deal.mapper.DealMapper;
 import ru.neoflex.deal.repository.ClientRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +32,7 @@ class ClientServiceImplTest {
     FinishRegistrationRequestDto finishRegistrationRequestDto;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         loanStatementRequestDto = DtoBuilder.getLoanStatementRequestDto();
 
         savedClient = Client.builder()
@@ -45,10 +44,8 @@ class ClientServiceImplTest {
     }
 
     @Test
-    public void testCreateClient() {
+    void testCreateClient() {
         // Given
-        Client clientToSave = DealMapper.initializeClient(loanStatementRequestDto);
-
         when(clientRepository.save(any(Client.class))).thenReturn(savedClient);
 
         // When
@@ -61,7 +58,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    public void testFinalUpdateClient() {
+    void testFinalUpdateClient() {
         // Given
         // When
         Client updatedClient = clientService.finalUpdateClient(savedClient, finishRegistrationRequestDto);

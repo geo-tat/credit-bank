@@ -27,7 +27,7 @@ public class StatementServiceImpl implements StatementService {
     @Override
     public Statement createStatement(Client client, LoanStatementRequestDto dto) {
         LocalDateTime registrationTime = LocalDateTime.now();
-        Statement statementToSave = DealMapper.InitializeStatement(registrationTime, client, dto);
+        Statement statementToSave = DealMapper.initializeStatement(registrationTime, client);
         Statement statement = statementRepository.save(statementToSave);
         log.info("statement information saved in db {}", statement);
         return statement;

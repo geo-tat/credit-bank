@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+loan:
+  baseRate: 14.0
+  insuranceDiscount: 3.0
+  salaryDiscount: 2.0
+  monthlyInsuranceRate: 0.015
+  dependentAmount: 0.5
+  maritalStatusSingle: 0.5
+  maritalStatusWidowed: 0.5
+logging:
+  level:
+    root: info
+server:
+  port: 2041

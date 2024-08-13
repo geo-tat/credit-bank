@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="1" author="geo-tat" runOnChange="true">
+        <createTable tableName="client">
+            <column name="client_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="varchar(30)"/>
+            <column name="birth_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="varchar(24)"/>
+            <column name="marital_status" type="varchar(24)"/>
+            <column name="dependent_amount" type="int"/>
+            <column name="passport_data" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employment_data" type="jsonb">
+            </column>
+            <column name="account_number" type="varchar(16)"/>
+
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

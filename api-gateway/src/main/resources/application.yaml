@@ -1,0 +1,16 @@
+server:
+  port: 2045
+
+rest:
+  statement:
+    host: http://localhost:2043
+    method:
+      calculate-offers: /statement
+      select-offer: /statement/offer
+  deal:
+    host: http://localhost:2042
+    method:
+      finish-registration: /deal/calculate/{statementId}
+      send-document: /deal/document/{statementId}/send
+      sign-document: /deal/document/{statementId}/sign
+      verify-ses-code: /deal/document/{statementId}/code

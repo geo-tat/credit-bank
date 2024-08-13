@@ -15,6 +15,7 @@ import ru.neoflex.deal.service.interfaces.StatementService;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -48,9 +49,17 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public Collection<Statement> getAllStatements(Pageable pageable) {
+    public Page<Statement> getAllStatements(Pageable pageable) {
         Page<Statement> statements = statementRepository.findAll(pageable);
         log.info("received statements from db: {}", statements);
-        return statements.toList();
+        return statements;
+    }
+
+    @Override
+    public Page<Statement> getAllStatementsByClientId(UUID clientId, Pageable pageable) {
+
+        Page<Statement> statements = statementRepository.findAllByClientId(clientId, pageable);
+        log.info("received statements by client_id={} from db: {}", clientId, statements);
+        return statements;
     }
 }

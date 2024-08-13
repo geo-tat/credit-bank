@@ -38,7 +38,7 @@ public class LoanStatementRequestDto {
     private String lastName;
 
     @Schema(description = "Отчество", minLength = 2, maxLength = 30)
-    @Size(min = 2, max = 30, message = "Middle name must be between 2 and 30 characters")
+    @Size(min = 2, max = 30, message = "Middle name must be between 0 and 50 characters")
     @Pattern(regexp = "^[a-zA-Z]*$", message = "Middle name must contain only Latin letters")
     private String middleName;
 

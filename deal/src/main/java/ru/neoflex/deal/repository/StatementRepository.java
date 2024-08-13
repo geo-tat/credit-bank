@@ -10,4 +10,6 @@ import java.util.UUID;
 
 public interface StatementRepository extends JpaRepository<Statement, UUID> {
     Page<Statement> findAll(Pageable pageable);
+
+    Page<Statement> findAllByClientId(UUID clientId, Pageable pageable);
 }

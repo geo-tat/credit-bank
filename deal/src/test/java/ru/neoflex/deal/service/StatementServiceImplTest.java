@@ -27,8 +27,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -107,13 +106,18 @@ class StatementServiceImplTest {
                 new Statement(),
                 new Statement()
         );
-        Page<Statement> statementPage = new PageImpl<>(statementList);
+        Page<Statement> statementPage = new PageImpl<>(statementList, pageable, statementList.size());
         // When
         when(statementRepository.findAll(pageable)).thenReturn(statementPage);
-        Collection<Statement> result = statementService.getAllStatements(pageable);
+        Page<Statement> result = statementService.getAllStatements(pageable);
         // Then
-        assertEquals(statementList.size(), result.size());
-        assertThat(result).isEqualTo(statementList);
+        assertNotNull(result);
+        assertEquals(statementList.size(), result.getNumberOfElements());
+        assertEquals(statementList.size(), result.getContent().size());
+        assertTrue(result.getContent().containsAll(statementList));
+        assertEquals(4, result.getPageable().getPageNumber());
+        assertEquals(10, result.getPageable().getPageSize());
+
         verify(statementRepository, times(1)).findAll(pageable);
     }
 
@@ -145,5 +149,26 @@ class StatementServiceImplTest {
 
         // Then
         verify(statementRepository).save(statement);
+    }
+
+    @Test
+    void testGetAllStatementsByClientId() {
+        // Given
+        UUID clientId = UUID.randomUUID();
+        Statement statement1 = new Statement();
+        Statement statement2 = new Statement();
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Statement> statementPage = new PageImpl<>(Arrays.asList(statement1, statement2), pageable, 2);
+
+        when(statementRepository.findAllByClientId(clientId, pageable)).thenReturn(statementPage);
+
+        // When
+        Page<Statement> result = statementService.getAllStatementsByClientId(clientId, pageable);
+
+        // Then
+        assertThat(result).isNotNull();
+        assertThat(result.getTotalElements()).isEqualTo(2);
+        assertThat(result.getContent().containsAll(List.of(statement1,statement2)));
+        verify(statementRepository).findAllByClientId(clientId, pageable);
     }
 }

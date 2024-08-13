@@ -7,7 +7,7 @@ import ru.neoflex.deal.dto.LoanStatementRequestDto;
 import ru.neoflex.deal.entity.Client;
 import ru.neoflex.deal.entity.Statement;
 
-import java.util.Collection;
+
 import java.util.UUID;
 
 public interface StatementService {

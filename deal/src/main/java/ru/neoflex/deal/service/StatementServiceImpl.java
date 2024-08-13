@@ -14,8 +14,6 @@ import ru.neoflex.deal.repository.StatementRepository;
 import ru.neoflex.deal.service.interfaces.StatementService;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 @Service

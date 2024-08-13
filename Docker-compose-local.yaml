@@ -41,6 +41,10 @@ services:
       - "2044:2044"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
     depends_on:
       - kafka
     networks:

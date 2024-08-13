@@ -25,9 +25,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/deal-db
-    username: root
-    password: password
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB_NAME}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
 
   cloud:
     feign:

@@ -20,7 +20,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="email" type="varchar(64)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="gender" type="varchar(24)"/>
             <column name="marital_status" type="varchar(24)"/>

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -84,9 +86,10 @@ class AdminControllerTest {
     void testGetAllStatements_Success() throws Exception {
         Statement statement1 = Statement.builder().build();
         Statement statement2 = Statement.builder().build();
-        Collection<Statement> statements = List.of(statement2, statement1);
+        List<Statement> statements = List.of(statement2, statement1);
+        Page<Statement> statementsPage = new PageImpl<>(statements);
         Pageable pageable = PageRequest.of(0, 10, Sort.by("creationDate").ascending());
-        when(service.getAllStatements(pageable)).thenReturn(statements);
+        when(service.getAllStatements(pageable)).thenReturn(statementsPage);
 
         mvc.perform(get("/deal/admin/statement")
                         .param("page", "0")

@@ -110,9 +110,9 @@ class StatementServiceImplTest {
         Page<Statement> statementPage = new PageImpl<>(statementList);
         // When
         when(statementRepository.findAll(pageable)).thenReturn(statementPage);
-        Collection<Statement> result = statementService.getAllStatements(pageable);
+        Page<Statement> result = statementService.getAllStatements(pageable);
         // Then
-        assertEquals(statementList.size(), result.size());
+        assertEquals(statementList.size(), result.stream().toList().size());
         assertThat(result).isEqualTo(statementList);
         verify(statementRepository, times(1)).findAll(pageable);
     }

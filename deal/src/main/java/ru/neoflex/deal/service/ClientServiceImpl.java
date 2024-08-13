@@ -33,7 +33,8 @@ public class ClientServiceImpl implements ClientService {
         client.setEmploymentData(dto.getEmploymentDto());
         client.setDependentAmount(dto.getDependentAmount());
         client.setAccountNumber(dto.getAccountNumber());
-
+        client.getPassportDtoData().setIssueDate(dto.getPassportIssueDate());
+        client.getPassportDtoData().setIssueBranch(dto.getPassportIssueBranch());
         log.info("client information was updated {}", client);
         return client;
     }

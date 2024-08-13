@@ -88,7 +88,7 @@ public class AdminController {
     })
     @Operation(description = "Получение списка всех клиентов. Request , response Page<Statement>")
     @GetMapping("/client")
-    Page<Client> getAllClients( @PageableDefault(sort = "creationDate", direction = Sort.Direction.ASC) Pageable pageable) {
+    Page<Client> getAllClients( @PageableDefault(sort = "lastName", direction = Sort.Direction.ASC) Pageable pageable) {
 
         Page<Client> clients = clientService.getAllClients(pageable);
         log.info("clients: {}", clients);

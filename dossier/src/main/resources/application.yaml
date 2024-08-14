@@ -1,7 +1,7 @@
 spring:
   mail:
-    host: sandbox.smtp.mailtrap.io
-    port: 2525
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
     username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
     test-connection: true

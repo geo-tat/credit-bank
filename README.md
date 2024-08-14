@@ -84,3 +84,8 @@
 ![arch](app-arch.png)
 
 ## Swagger:
+
+- [MS-Calculator](./swagger/calculator-swaggerUI.html)
+- [MS-Deal](./swagger/deal-swaggerUI.html)
+- [MS-Statement](./swagger/statement-swaggerUI.html)
+- [MS-Gateway](./swagger/gateway-swaggerUI.html)

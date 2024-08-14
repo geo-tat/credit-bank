@@ -1,5 +1,6 @@
 package ru.neoflex.dossier.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +17,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class EmailMessage {
 
     private UUID statementId;
-    private String address;
-    private TopicType theme;
 
+    private String address;
+
+    private TopicType theme;
 }

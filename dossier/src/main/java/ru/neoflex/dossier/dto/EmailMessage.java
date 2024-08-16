@@ -16,10 +16,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class EmailMessage {
 
     private UUID statementId;
-    private String address;
-    private TopicType theme;
 
+    private String address;
+
+    private TopicType theme;
 }

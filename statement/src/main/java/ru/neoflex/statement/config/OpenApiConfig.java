@@ -1,23 +1,22 @@
-package ru.neoflex.calculator.config;
+package ru.neoflex.statement.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
-/**
- *  doc http://localhost:8080/swagger-ui
- *  OAS: http://localhost:8080/v3/api-docs
- */
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "MS Calculator",
-                description = "Отвечает за скоринг заявки и расчетную логику",
+                title = "MS Statement",
                 version = "1.0.0",
+                description = "Осуществляет прескоринг заявки",
                 contact = @Contact(
                         name = "Tatevosian Georgii"
                 )
         )
 )
+// codecov: ignore start
 public class OpenApiConfig {
-
 }
+// codecov: ignore end

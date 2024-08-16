@@ -85,7 +85,7 @@
 
 ## Swagger:
 
-- [MS-Calculator](./swagger/calculator-swaggerUI.html)
-- [MS-Deal](./swagger/deal-swaggerUI.html)
-- [MS-Statement](./swagger/statement-swaggerUI.html)
-- [MS-Gateway](./swagger/gateway-swaggerUI.html)
+- [MS-Calculator](./swagger/calculator-api.json)
+- [MS-Deal](./swagger/deal-api.json)
+- [MS-Statement](./swagger/statement-api.json)
+- [MS-Gateway](./swagger/gateway-api.json)

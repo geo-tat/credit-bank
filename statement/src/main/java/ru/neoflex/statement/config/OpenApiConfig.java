@@ -16,5 +16,7 @@ import org.springframework.context.annotation.Configuration;
                 )
         )
 )
+// codecov: ignore start
 public class OpenApiConfig {
 }
+// codecov: ignore end

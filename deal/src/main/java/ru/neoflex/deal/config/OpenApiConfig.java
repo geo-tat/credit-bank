@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "MS Deal",
+                description = "Сортирует поступающую информацию, сохраняет в базу данных." +
+                        "Здесь осуществляется логика смены статуса заявки и кредита",
                 version = "1.0.0",
                 contact = @Contact(
                         name = "Tatevosian Georgii"

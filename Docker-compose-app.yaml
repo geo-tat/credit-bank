@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   calculator:
     container_name: calculator
     build:
@@ -68,15 +69,16 @@ services:
       - credit-bank-network
 
   postgres:
-    image: postgres:13
+    image: postgres:15
+    container_name: credit-db
     environment:
-      POSTGRES_DB: bank-db
+      POSTGRES_DB: credit-db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
     ports:
       - "5434:5432"
     volumes:
-      - bank_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - credit-bank-network
 
@@ -142,7 +144,7 @@ services:
       - credit-bank-network
 
 volumes:
-  bank_data:
+  postgres_data:
 
 networks:
   credit-bank-network:

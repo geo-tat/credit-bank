@@ -51,7 +51,7 @@ class DocumentServiceImplTest {
 
     @Test
     void testCreateDocument() {
-        documentService.createDocument(statementId, email);
+        documentService.createDocument(statementId, email, new Credit());
 
         verify(kafkaProducer, times(1)).sendEmail(any(EmailMessage.class));
     }

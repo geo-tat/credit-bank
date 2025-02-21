@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal.dto.EmailMessage;
 import ru.neoflex.deal.dto.StatementStatusHistoryDto;
+import ru.neoflex.deal.entity.Credit;
 import ru.neoflex.deal.entity.Statement;
 import ru.neoflex.deal.enums.ApplicationStatus;
 import ru.neoflex.deal.enums.ChangeType;
@@ -37,12 +38,13 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void createDocument(UUID statementId, String email) {
+    public void createDocument(UUID statementId, String email, Credit credit) {
         log.info("Sending CREATE_DOCUMENTS message");
         kafkaProducer.sendEmail(EmailMessage.builder()
                 .statementId(statementId)
                 .theme(TopicType.CREATE_DOCUMENTS)
                 .address(email)
+                .text(credit.toString())
                 .build());
     }
 

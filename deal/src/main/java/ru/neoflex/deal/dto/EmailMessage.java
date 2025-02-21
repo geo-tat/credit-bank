@@ -27,5 +27,7 @@ public class EmailMessage {
             CREDIT_ISSUED,
             STATEMENT_DENIED"""})
     private TopicType theme;
+    @Schema(description = "Текст сообщения")
+    private String text;
 
 }

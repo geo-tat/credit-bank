@@ -99,7 +99,7 @@ public class DealServiceImpl implements DealService {
 
             statementService.updateStatement(statement);
 
-            documentService.createDocument(statement.getId(), statement.getClient().getEmail());
+            documentService.createDocument(statement.getId(), statement.getClient().getEmail(), credit);
         } catch (Exception e) {
             statement.setApplicationStatus(ApplicationStatus.CC_DENIED);
             statement.getStatusHistory().add(StatementStatusHistoryDto.builder()

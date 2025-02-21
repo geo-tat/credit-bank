@@ -49,7 +49,9 @@ public class DossierServiceImpl implements DossierService {
         helper.setTo(emailMessage.getAddress());
         helper.setSubject(emailMessage.getTheme().getValue());
 
-        String text = "Кредит одобрен! Для формирования документов нажмите на кнопку: ";
+        String text = "Кредит одобрен!<br>" +
+                emailMessage.getText() + "<br>" +
+                "Для формирования документов нажмите на кнопку: ";
         String url = properties.getHost() + gatewayPath + emailMessage.getStatementId().toString() + "/send";
         String content = text + "<br><br>" +
                 "<form id=\"postForm\" action=\"" + url + "\" method=\"post\">" +

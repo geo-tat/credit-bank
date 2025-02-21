@@ -24,4 +24,6 @@ public class EmailMessage {
     private String address;
 
     private TopicType theme;
+
+    private String text;
 }
